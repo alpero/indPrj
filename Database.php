@@ -99,6 +99,7 @@
      PRIMARY KEY (`id`),
      FOREIGN KEY (personsID) REFERENCES indPrj_persons(id) )";
      
+   // REPORTS TABLE
    $reportsTable = "
     CREATE TABLE IF NOT EXISTS `indPrj_reports` (
      `id`        int(11)      NOT NULL AUTO_INCREMENT,
@@ -110,6 +111,22 @@
      PRIMARY KEY (`id`),
      FOREIGN KEY (personsID) REFERENCES indPrj_persons(id),
      FOREIGN KEY (personsID) REFERENCES indPrj_persons(id) )";
+   
+   // ALTER REVIEWS
+   $alterReviews = "
+    ALTER TABLE `indPrj_reviews`
+     ADD CONSTRAINT `fk_reviews` 
+     FOREIGN KEY (`gamesID`) 
+     REFERENCES `indPrj_games` (`id`) 
+     ON DELETE CASCADE ON UPDATE CASCADE";
+     
+   // ALTER REPORTS
+   $alterReports = "
+    ALTER TABLE `indPrj_reports`
+     ADD CONSTRAINT `fk_reports` 
+     FOREIGN KEY (`reviewsID`) 
+     REFERENCES `indPrj_reviews` (`id`) 
+     ON DELETE CASCADE ON UPDATE CASCADE";
      
    // Create Tables
    self::query($personsTable);
@@ -117,6 +134,10 @@
    self::query($reviewsTable);
    self::query($adminTable);
    self::query($reportsTable);
+   
+   // Alter Tables
+   self::query($alterReports);
+   self::query($alterReviews);
   }
  }
 ?>

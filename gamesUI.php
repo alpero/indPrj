@@ -43,7 +43,7 @@
  // ************************************************************************
  function editGameForm() {
   addGameForm();
-  $rec = unserialize($_POST['record']);
+  $rec = unserialize(stripslashes($_POST['record']));
   $desc = str_replace(array( "\n", "\r" ), array( "\\n", "\\r" ), $rec[description]);
   echo '
    <script>
@@ -82,13 +82,13 @@
   $records = Games::toArray();
   
   // Used by the select button within the table.
-  echo '
+  echo "
    <!-- function for setting the serialized record -->
    <script>
     function setRecord(rec) { 
-     document.getElementById("record").value = rec;
+     document.getElementById('record').value = rec;
     }
-   </script>';
+   </script>";
    
   // Name of the file that is calling this function
   $fileName = basename($_SERVER['SCRIPT_FILENAME']);
@@ -106,8 +106,8 @@
   
   // Display each row.
   foreach ($records as $record) {
-   $str = addslashes(serialize($record));
-   $serializedRecord = str_replace(array( "\n", "\r" ), array( "\\n", "\\r" ), $str );
+   $str = addslashes(addslashes(serialize($record)));
+   $serializedRecord = str_replace(array("\n", "\r", "'"), array("\\n", "\\r", " "), $str);
    echo "
     <tr>
      <td>$record[title]</td>

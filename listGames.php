@@ -26,14 +26,13 @@
  
  // If the Add Entry button was pressed from the listGames function...
  elseif (isset($_POST['submit']) && $_POST['submit'] == "Add Entry") {
-  $rec = unserialize($_POST['record']);
   Games::add($_POST['title'], $_POST['description']);
   header('Location: listGames.php');
  }
  
  // If the View Game button was pressed from the listGames function...
- elseif (isset($_POST['selectGame'])) { 
-  $rec = unserialize($_POST['record']);
+ elseif (isset($_POST['selectGame'])) {
+  $rec = unserialize(stripslashes($_POST['record']));
   header('Location: viewGame.php?id=' . $rec['id']);
  }
  
@@ -51,7 +50,7 @@
  
  // If the Delete Game button was pressed from the listGames function...
  elseif (isset($_POST['deleteGame'])) {
-  $rec = unserialize($_POST['record']);
+  $rec = unserialize(stripslashes($_POST['record']));
   Games::delete($rec['id']);
   header('Location: listGames.php');
  }
